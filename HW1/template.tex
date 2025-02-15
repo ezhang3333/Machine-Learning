@@ -1,0 +1,270 @@
+\documentclass{article}
+
+\newcommand{\hwno}{1}
+\newcommand{\duedate}{Feb 11, 2025}
+
+
+\title{CS 446 --- Homework \hwno}
+% \author{\emph{your NetID here}}
+\date{Due: \duedate }
+
+
+\newcommand{\hw}{\texttt{hw{\hwno}}}
+\newcommand{\hwc}{\texttt{hw{\hwno}code}}
+
+\input{myheaders.tex}
+
+\begin{document}
+
+\maketitle
+
+\input{instructions.tex}
+
+
+\begin{enumerate}
+
+  \begin{Q}
+    \textbf{Nearest Neigbhor (theory).}
+    Consider a set of training data $x^{(1)},\ldots, x^{(n)} \in \cX$,
+    and consider a $k$-NN algorithm with random tie breaking
+    for points with equal distance to the query.
+    \begin{enumerate}
+      \item (3 points) Assume that for all data, the binary class label $y \in \{0,1\}$ is $1$ 
+        with probability $q$, and $0$ with probability $1-q$,
+        where $q \in [0,1]$ is a constant that is independent of $x$.
+        Given any test point $x$ and distance function $d(x,x')$, what
+        is the probability (over data) that $1$-NN gives the
+        correct classification result? \label{knn-1}
+
+
+      \item (3 points) What is the probability that $k$-NN predicts class label
+        of $\hat{y}=1$? Assume that $k$ is an odd number. \label{knn-2}
+
+        Moreover, if $q>0.5$, and we
+        let $k, n \to \infty$, what does the probability 
+        converge to? 
+
+
+      \item (2 points) Let $p(x)$ be the density function of data $x$ in
+        $d$-dimension, so that  $p(x) >0$ for all $x$. Assume label
+        $y$ is binary with value in   $\{0,1\}$, $p(y=1|x)$
+        is continuous (and not necessarily
+        constant). Assume both training and test data are drawn
+        independently from $p(x,y)$. 
+        When $n \to \infty$, 
+        what is the probability that $1$-NN with Euclidean distance gives
+        the correct classificaiton result expressed in   $p(x)$ and
+        $p(y|x)$? \label{p1c}
+        
+
+      \item (2 points)  Under the same conditions of Problem \ref{p1c},
+        when $n \to \infty$, $k \to \infty$ and $k/n \to 0$,  what is the probability that $k$-NN with Euclidean distance gives
+        the correct classificaiton result expressed in  $p(x)$ and
+        $p(y|x)$?
+        
+      \end{enumerate}
+  \end{Q}
+
+  \begin{Q}
+    \textbf{PCA (theory).}
+    Let $x^{(i)} = \{x^{(i)}_1, x^{(i)}_2,  ..., x^{(i)}_d\}$ for
+    $i=1,\ldots,n$, and assume that the empirical mean is zero. Define
+    the empirical variance of the data as $\frac1n \sum_{i=1}^n
+    \|x^{(i)}\|_2^2$ (note that we divide by $n$ instead of
+    $n-1$). Let $X$ be the centered data matrix.
+    \begin{enumerate}
+    \item (4 points) Let $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d$  be the
+      eigenvalues of the covariance matrix  $\Sigma = \frac{1}{n}
+      X^\top X$.
+      What is the variance expressed in terms of $\lambda_i$?
+
+    \item (3 points) Assume $z^{(i)}$ be the representation of $x^{(i)}$ in the
+      top-$q$ principal components, what is the variance of $z^{(i)}$
+      expressed in terms of $\lambda_i$?
+
+    \item (3 points) What is the average of the squared reconstruction
+      error in terms of $\lambda_i$?
+      
+    \end{enumerate}
+    
+  \end{Q}
+
+
+  \begin{Q}
+    \textbf{k-Means (theory).}
+
+    Consider a $d$ dimensional training data
+    $\cD=\{x^{(i)}\}_{i=1}^n$ of size $n$. 
+    Assume that we want to find $k$ cluster centers
+    $\mu=\{\mu_c \in \R^d: c=1,\ldots,k\}$ by solving the following
+    optimization problem:
+    \[
+      \min_{\mu} \sum_{i=1}^n \min_{c \in [k]} \|x^{(i)}-\mu_{c}\|_1
+    \]
+    \begin{enumerate}
+    \item (5 points) Introduce
+      $n$ latent cluster index variables
+      $z=\{z_i \in [k]: i=1,\ldots,n\}$, and rewrite the cluster
+      objective in terms of $\mu$ and $z$.
+
+
+  \item (10 points)
+    Mimic the k-means algorithm, and use alternating optimization between
+    $\mu$ and $z$ to solve for $\mu$ and $z$. What is the
+    computational complexity of each step?
+    
+
+  \end{enumerate}
+    \end{Q}
+
+  
+  \begin{Q}
+\textbf{Mixture Model (theory).}
+Extended from the Gaussian mixture model introduced in the lecture, we explore the Bernoulli mixture model in this problem. We represent the dataset as $X \in \{0,1\}^{n\times d}$ and each data instance is a set of $d$ independent binary random variables $x^{(i)} = \{x^{(i)}_1, x^{(i)}_2, ..., x^{(i)}_d\}$ and the probability that $x^{(i)}$ is generated from the $c$-th Bernoulli distributions is calculated as:
+\begin{align}
+    \Pr(x^{(i)}|\mu_c) = \prod_{j=1}^d \mu_c^{x^{(i)}_j}(1-\mu_c)^{\left(1-x^{(i)}_j\right)} ,\notag
+\end{align}
+where $\mu_c \in (0,1)$ is the mean of the $c$-th Bernoulli distribution.
+
+We consider $k$ mixed Bernoulli distributions and introduce the
+latent variable $z_{i} \in [k]$as the cluster assignment for
+$x^{(i)}$.
+Also, we have $\Pr(z_{i} = c) = \pi_c$ and $\Pr(x^{(i)}|z_{i} = c) = \Pr(x^{(i)}|\mu_c)$.
+
+\begin{enumerate}
+    \item (5 points) Derive the log-likelihood $\log \Pr(x^{(i)}, z_i| \pi,
+      \mu)$.
+
+
+    \item (5 points) In the \textbf{expectation} step, derive the update step for
+      the assignment (posterior) $q_{i}(c)=\Pr(z_{i} = c|x^{(i)})$ for
+      $i \in [n]$ and $c \in   [k]$.
+
+      
+    \item (5 points) In the \textbf{maximization} step, derive the update step
+      for the model parameter, i.e., $\mu_c^{\text{new}}$ and
+      $\pi_c^{\text{new}}$,  using $q_i(c)$ from the E-step ($c \in [k]$).
+
+      
+\end{enumerate}
+\end{Q}
+
+
+\begin{Q}
+  \textbf{$k$-Means (Coding). 20 points} \label{kmc}
+
+  In this problem you will deal with the Iris dataset by Ronald Fisher. The dataset consists of measurements of various classes of Iris flowers and the goal is to group the points into classes. The dataset provides four features of the flowers. They are sepal length, sepal width, petal length and petal width, respectively, measured in centimeters. You can access these data by calling the method \texttt{load\_iris\_data()}. The function returns two NumPy arrays of shape $(150,4)$ and $(150,1)$. The first array contains $150$ datapoints with $4$ features each and the latter array contains the corresponding label of datapoints. Note that your solution is not allowed to directly invoke \texttt{sklearn} or \texttt{scipy}.
+  
+  \begin{enumerate}
+    \item (10 points)
+      Implement Lloyd's method inside the \texttt{k\_means(X, k)} method, which takes as input a NumPy array of shape $(n, d)$ of $n$ datapoints of dimension $d$ and a positive integer $k$. The method should return a $k \times d$ matrix in which each row corresponds to one of the $k$ centers.  For the initialization, use a random (valid) assignment matrix. You don't need to write anything in the hand-in solutions for this part.
+
+    \item (5 points)
+      Implement the \texttt{get\_purity\_score(X, Y, C)} method. The method takes a data matrix $\vX$ of shape $(n,d)$, a label array $\vY$ of shape $(n,1)$, and a matrix $\vC$ of shape $(k,d)$ with rows corresponding to the $k$ centers. The purity score of a clustering is defined as the percentage of data points whose label matches the plurality label of the cluster they are placed in. The function should return a number in range $[0,1]$, that is the purity score of the clustering induced on $\vX$ by the centers $\vC$. Ties can be broken arbitrarily. You don't need to write anything in the hand-in solutions for this part.
+
+    \item (2 points)
+      Load the Iris dataset using the \texttt{load\_iris\_data()}
+      method and apply your implementation of $k$-means to it with
+      different values of $k$. Plot the purity score of the
+      classification as a function of $k$. You can use the
+      \texttt{line\_plot(data1, ..., min\_k=2,
+        output\_file='plot.pdf')} to draw the plot. This method takes
+      as input an array of purity scores and prints the corresponding
+      line plot to a PDF file. The optional argument \texttt{min\_k}
+      indicates the first label along the $x$ axis and
+      \texttt{output\_file} indicates the output file
+      location. Describe the behavior of purity score as $k$
+      increases. At what point does purity reach $1$? \label{kmc-c}
+
+
+
+\item (3 points)
+      Train a $k$-means model with $4$ centers. Plot the data and
+      group them by the closest center. To draw the plot, you can use
+      the method \texttt{scatter\_plot\_2d\_project(X1, \ldots,
+        output\_file='output.pdf', ncol=3)}. This method takes
+      multiple matricies \texttt{X1, \ldots} of size $n_i \times d$
+      each corresponding to one cluster. It generates ${d \choose 2}$
+      plots, one for every pair of dimensions. The output is then
+      saved to the file indicated by \texttt{output\_file}. \label{kmc-g}
+
+
+    \end{enumerate}
+\end{Q}
+
+
+\begin{Q}
+  \textbf{E-M and GMMs (Coding). 20 points}
+
+  In this problem you will implement the E-M algorithm to learn a mixture of $k$ Gaussians with diagonal covariances, as detailed in lecture. You will be using the same data as in Problem \ref{kmc}.
+
+  \begin{enumerate}
+    \item (11 points)
+      Implement the \texttt{gmm(X, k)} method. In this method \texttt{X} is a data matrix of shape $(n,d)$. The positive integer \texttt{k} indicates the number of Gaussian components in the mixture. Your output should be a matrix $\mu$ of shape $(k,d)$ where each row corresponds to the mean of one of the Gaussians, a matrix $\Sigma$ of shape $(k,d)$ matrices where the $i$-th row corresponds to the diagonal of the covariance matrix of the $i$-th Gaussians and a $k$-vector of probability distribution over the $k$ Gaussian components.  For initialization, set the weights $\pi$ to be uniform, the covariances to be diagonal, and the means to be the result of your $k$-means solution from the previous part after 10 iterations.
+
+    \item (2 points)
+      Compute and plot the log-likelihood of the model when trained on the data trained by your algorithm with a uniform \texttt{pi} against the value of \texttt{k} ranging from $2$ to $10$. You can use the method \texttt{line\_plot(data1, ..., min\_k=2, output\_file='plot.pdf')} to plot the data.
+\label{gmm-b}
+
+\item (4 points)
+      Implement the \texttt{gmm\_predict(x, mu, covars, weights)}
+      method. In this method, \texttt{x} is a $d \times 1$ vector,
+      \texttt{mu} is a matrix of shape $(k,d)$, the list
+      \texttt{covars} is of length $k$ and consists of $d \times d$
+      covariance matrices and \texttt{weights} is a $k \times 1$
+      vector that is probability distribution indicating the weights
+      of the $k$ Gaussian components. Your method should return a
+      $k$-vector that is the probability distribution of the datapoint
+      $\vx$ having been generated by each of the Gaussian components. \label{gmm-e}
+
+      
+    \item (3 points)
+      Train a Gaussian mixture model with $4$ components. Plot the data and group them by 
+      the closest center. To draw the plot, you can use the method \texttt{gaussian\_plot\_2d\_project(X1, \ldots, output\_file='output.pdf', ncol=3)}. 
+      This method takes multiple matricies \texttt{X1, \ldots} of size $n_i \times d$ each corresponding to one cluster. 
+      It generates ${d \choose 2}$ plots, one for every pair of dimensions. The output is then 
+      saved to the file indicated by \texttt{output\_file}.
+
+      \textbf{Note:} In the template provided, we provide a ``main'' function that 
+      acts as a starting point for your call to plotting functions. Older versions of this 
+      question use a \texttt{reassign} helper function which should be ignored. 
+    
+  \end{enumerate}
+\end{Q}
+
+\begin{Q}
+   \textbf{k-NN and VectorDB  (Coding). 10 points}
+
+  In this problem you will test the impact of feature embeddings on the success of KNN, now on a larger dataset. 
+  Implement the KNN algorithm using \texttt{VectorDB}, provided in the template, and test on the \href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR-10} image classification dataset. 
+  The template code makes use of the Facebook AI Similarity Search, \href{https://github.com/facebookresearch/faiss}{\texttt{faiss}}, which is imported. 
+
+  While the functions you will implement are contained in the \texttt{VectorDB} class provided in the template, we recommend you examine the functions provided in \texttt{hw1\_utils} as well. 
+
+  \textbf{Note:} you are encouraged to play with the values in the main function of \texttt{hw1}. However, for your final submission, please use the original parameters. This includes \texttt{k\_max, k\_min, l, k}, as well as \texttt{seed} in \texttt{get\_resnet18()}.
+
+  \textbf{Hint:} Use the attributes and class functions of \texttt{VectorDB}; specifically, take a look at what is defined in \texttt{build()}.
+
+  \begin{enumerate}
+  \item (1 point) Implement the \texttt{search(self, X\_query, k)} method in class VectorDB based on the description provided in the comments. 
+  The parameter \texttt{X\_query} is the input query data, a NumPy array of shape $(N, \cdots)$ where $N$ is the number of queries, and $k$ is the number of nearest neighbours to fetch in KNN.
+  This fuction retrieves the indices of the nearest $k$ neighbours according to whatever metric is initialized on creation of the \texttt{VectorDB} instance. 
+
+  \item (1 point) Implement the \texttt{classify()} method in class VectorDB based on the
+    description provided in the comments. Again, the parameter \texttt{X\_query} is the input query data, a NumPy array of shape $(N, \cdots)$ where $N$ is the number of queries, and $k$ is the number of nearest neighbours to fetch in KNN.
+    This function should return an array of predictions for each point ($N$ in total).
+
+  \item (5 points) Report the results in a table. These are printed by running \texttt{hw1.py} with the corresponding branch in the main function set to True. 
+\end{enumerate}
+  
+\end{Q}
+
+\end{enumerate}
+ 
+
+% \bibliography{bib}
+% \bibliographystyle{plainnat}
+
+
+\end{document}
+
