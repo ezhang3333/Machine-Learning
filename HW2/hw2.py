@@ -20,6 +20,7 @@ def bayes_MAP(X, y):
 
     '''
 
+
     X = X.float()
     y = y.float()
     
